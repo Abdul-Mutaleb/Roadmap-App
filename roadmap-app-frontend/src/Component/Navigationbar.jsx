@@ -12,7 +12,7 @@ const Navigationbar = () => {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className="me-auto">
-              <Nav.Link href="/login">Logout</Nav.Link>
+              <Nav.Link href="/login">Logoutt</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
