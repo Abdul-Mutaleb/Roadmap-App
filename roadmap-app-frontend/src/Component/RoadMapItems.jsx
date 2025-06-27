@@ -17,7 +17,7 @@ const RoadMapItems = () => {
     <div className='container'>
 
       <div className='row mt-3'>
-        <div className='col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+        <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4'>
           <Card className='mt-3' style={{ cursor: 'pointer' }} onClick={CardDetails}>
             <Card.Body className="shadow border-0" >
               <Card.Title>
@@ -38,7 +38,7 @@ const RoadMapItems = () => {
           </Card>
         </div>
 
-        <div className='col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+        <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4'>
           <Card className='mt-3' style={{ cursor: 'pointer' }} onClick={CardDetails}>
             <Card.Body className="shadow border-0" >
               <Card.Title>
@@ -59,7 +59,7 @@ const RoadMapItems = () => {
           </Card>
         </div>
 
-        <div className='col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+        <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4'>
           <Card className='mt-3' style={{ cursor: 'pointer' }} onClick={CardDetails}>
             <Card.Body className="shadow border-0" >
               <Card.Title>
@@ -80,7 +80,7 @@ const RoadMapItems = () => {
           </Card>
         </div>
 
-        <div className='col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+        <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4'>
           <Card className='mt-3' style={{ cursor: 'pointer' }} onClick={CardDetails}>
             <Card.Body className="shadow border-0" >
               <Card.Title>

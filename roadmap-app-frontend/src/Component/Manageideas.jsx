@@ -1,7 +1,40 @@
-import React from 'react';
-import { Card, Table } from 'react-bootstrap';
-
+import React, { useEffect,useState } from 'react';
+import { Card, Table, Button } from 'react-bootstrap';
+import axios from 'axios';
+import AppURL from '../api/AppURL';
 const Manageideas = () => {
+
+  const [ideas, setIdeas] = useState([]);
+
+    useEffect(() => {
+      getIdeas();
+    }, []);
+
+    const getIdeas = () => {
+    axios.get(AppURL.IdeasList)
+      .then((res) => {
+        setIdeas(res.data);
+      })
+      .catch((err) => {
+        console.log("Error fetching ideas", err);
+      });
+  };
+
+  //delete idea function
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure to delete this idea?")) {
+      axios.delete(`${AppURL.BaseURL}/admin/delete-idea/${id}`)
+        .then(() => {
+          getIdeas(); 
+        })
+        .catch((err) => {
+          console.log("Delete error", err);
+        });
+    }
+  };
+
+
+
   return (
     <div className="container py-5 mt-5">
       <div className="row justify-content-center">
@@ -19,18 +52,27 @@ const Manageideas = () => {
                       <th>Serial</th>
                       <th>Title</th>
                       <th>Description</th>
-                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                    {ideas.length > 0 ? (
+                      ideas.map((idea, index) => (
+                        <tr key={idea.id}>
+                          <td>{index + 1}</td>
+                          <td>{idea.title}</td>
+                          <td>{idea.description}</td>
+                          <td>
+                            <Button size="sm" variant="warning">Edit</Button>{' '}
+                           <Button  className="mt-sm-1 mt-md-0" size="sm" variant="danger" onClick={() => handleDelete(idea.id)}>Delete</Button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No ideas found.</td>
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
               </div>

@@ -10,32 +10,42 @@ import Dashboard from './Component/AdminDashboard/Dashboard';
 import Adminlayout from './Component/AdminDashboard/Adminlayout';
 import Addideas from './Component/Addideas';
 import Manageideas from './Component/Manageideas';
-
-
+import AppURL from './api/AppURL';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/comments' element={<Comments />} />
-        <Route path='/details' element={<Details />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/navbar' element={<Navigationbar />} />
-        <Route path='/admin' element={<Adminlayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="add-ideas" element={<Addideas />} />
-          <Route path="manage-ideas" element={<Manageideas />} />
-        </Route>
+    const [ideas, setIdeas] = useState([]);
 
+    useEffect(() => {
+        axios.get(AppURL.Addideas) 
+            .then((response) => {
+                setIdeas(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching ideas:", error);
+            });
+    }, []);
 
-        <Route path='*' element={<h1>404 Not Found</h1>} />
-      </Routes>
-    </>
-  )
+    return (
+        <>
+            <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/comments' element={<Comments />} />
+                <Route path='/details' element={<Details />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/navbar' element={<Navigationbar />} />
+                <Route path='/admin' element={<Adminlayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path='dashboard' element={<Dashboard />} />
+                    <Route path='add-ideas' element={<Addideas ideas={ideas} setIdeas={setIdeas} />} />
+                    <Route path='manage-ideas' element={<Manageideas />} />
+                </Route>
+                <Route path='*' element={<h1>404 Not Found</h1>} />
+            </Routes>
+        </>
+    );
 }
-export default App
 
-
+export default App;
