@@ -18,4 +18,10 @@ Route::delete('/admin/delete-idea/{id}', [AddIdeasController::class, 'deleteIdea
 // Route to update an idea
 Route::put('/admin/update-idea/{id}', [AddIdeasController::class, 'updateIdea']);
 
+Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
+    $request->user()->currentAccessToken()->delete();
+    return response()->json(['message' => 'Logged out']);
+});
 
+Route::get('/admin/total-users', [AddIdeasController::class, 'totalUsers']);
+Route::get('/admin/total-ideas', [AddIdeasController::class, 'totalIdeas']);

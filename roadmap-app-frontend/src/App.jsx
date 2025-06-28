@@ -22,8 +22,6 @@ function App() {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem('token');
 
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
   useEffect(() => {
     axios.get(AppURL.IdeasList)
       .then((response) => {

@@ -7,6 +7,9 @@ class AppURL {
     static UpdateIdeas = this.BaseURL + "/admin/update-idea";
     static UserRegister = this.BaseURL+"/register";
     static Login = this.BaseURL+"/login";
+    static Logout = this.BaseURL + "/logout";
+    static TotalUsers = this.BaseURL + "/admin/total-users";
+    static TotalIdeas = this.BaseURL + "/admin/total-ideas";
     
 }
 export default AppURL;

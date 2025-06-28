@@ -94,4 +94,15 @@ class AddIdeasController extends Controller
             ], 500);
         }
     }
+    public function totalUsers()
+    {
+        $count = DB::table('users')->where('role', 'user')->count();
+        return response()->json(['total_users' => $count]);
+    }
+    public function totalIdeas()
+    {
+        $count =DB::table('add_ideas')->count();
+        return response()->json(['total_ideas' => $count]);
+    }
+
 }

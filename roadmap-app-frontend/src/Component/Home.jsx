@@ -3,7 +3,7 @@ import { Button, Card, Container } from 'react-bootstrap';
 const Home = () => {
   return (
     <div >
-      <Container className="my-5">
+      <Container className="mt-4">
         <Card>
           <Card.Body>
             <div className="row">
