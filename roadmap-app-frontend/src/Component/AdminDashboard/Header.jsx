@@ -1,4 +1,4 @@
-import { Navbar, Nav, Dropdown, Image } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown } from 'react-bootstrap';
 
 const Header = () => {
   return (
@@ -14,7 +14,7 @@ const Header = () => {
             <Dropdown.Item href="#/profile">Profile</Dropdown.Item>
             <Dropdown.Item href="#/settings">Settings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item href="#/logout">Logout</Dropdown.Item>
+            <Dropdown.Item href="/login">Logout</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav>

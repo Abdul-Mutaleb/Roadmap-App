@@ -2,47 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+    //Register Method
+    public function register(Request $request){
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|unique:users',
+        'password' => 'required|confirmed',
+    ]);
+
+    try {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-        $user = users::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role' => 'user',
-        ]);
+        return response([
+            'message' => "Registration Successful",
+            'user' => $user,
+        ], 200);
+    } 
+    catch (\Exception $exp) {
+        return response([
+            'message' => $exp->getMessage()
+        ], 400);
+    }
+}
 
-        Auth::login($user);
-        return response()->json($user);
+
+        //Login Method
+  public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-        return response()->json(Auth::user());
-    }
+    $user = Auth::user();
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        return response()->json(['message' => 'Logged out']);
-    }
+    // For Laravel Sanctum token
+    $token = $user->createToken('app')->plainTextToken;
 
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
-    }
-    
+    return response()->json([
+        'user' => $user,
+        'token' => $token,
+    ]);
+ }
+ 
 }

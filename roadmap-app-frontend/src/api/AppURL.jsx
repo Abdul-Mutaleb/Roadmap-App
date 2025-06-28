@@ -5,5 +5,8 @@ class AppURL {
     static IdeasList = this.BaseURL + "/admin/manage-ideas";
     static DeleteIdeas= this.BaseURL + "/admin/delete-idea";
     static UpdateIdeas = this.BaseURL + "/admin/update-idea";
+    static UserRegister = this.BaseURL+"/register";
+    static Login = this.BaseURL+"/login";
+    
 }
 export default AppURL;

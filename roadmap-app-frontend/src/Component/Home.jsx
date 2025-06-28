@@ -12,7 +12,7 @@ const Home = () => {
                 <p style={{ fontSize: '20px' }}>Give Feedback and Share your ideas</p>
               </div>
               <div className="col-md-4 col-sm-4 text-lg-end text-sm-end text-md-end mt-2 px-lg-5 px-md-5">
-                <Button variant="success" href='/signup'>Sign Up</Button>
+                <Button variant="success" href='/register'>Sign Up</Button>
               </div>
             </div>
             <div>

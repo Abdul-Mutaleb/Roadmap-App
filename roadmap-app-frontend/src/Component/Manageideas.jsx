@@ -1,9 +1,11 @@
 import React, { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import AppURL from '../api/AppURL';
 const Manageideas = () => {
-
+  
+  const navigate = useNavigate();
   const [ideas, setIdeas] = useState([]);
 
     useEffect(() => {
@@ -63,8 +65,10 @@ const Manageideas = () => {
                           <td>{idea.title}</td>
                           <td>{idea.description}</td>
                           <td>
-                            <Button size="sm" variant="warning">Edit</Button>{' '}
-                           <Button  className="mt-sm-1 mt-md-0" size="sm" variant="danger" onClick={() => handleDelete(idea.id)}>Delete</Button>
+                            <Button size="sm" variant="warning" onClick={() => navigate(`/admin/edit-idea/${idea.id}`)}>
+                                Edit
+                            </Button>
+                           <Button  className="mt-sm-1 mt-md-0 " style={{ marginLeft: "10px" }} size="sm" variant="danger" onClick={() => handleDelete(idea.id)}>Delete</Button>
                           </td>
                         </tr>
                       ))
