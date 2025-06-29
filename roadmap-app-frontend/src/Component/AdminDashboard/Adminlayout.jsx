@@ -5,7 +5,7 @@ import Sidebar from './sidebar'
 
 const Adminlayout = () => {
     return (
-        <div>
+        <div className='mt-5'>
             <Header />
             <div className="d-flex">
                 <Sidebar />

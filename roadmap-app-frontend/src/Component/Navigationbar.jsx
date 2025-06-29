@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, Container, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
 import AppURL from '../api/AppURL';
 import axios from 'axios';
 import { HandThumbsUp, ChatDots } from 'react-bootstrap-icons';
+import Comments from './Comments';
 
 const Navigationbar = () => {
-  const navigate = useNavigate();
   const [ideas, setIdeas] = useState([]);
-
+  const [activeCommentId, setActiveCommentId] = useState(null);
 
   const handleLogout = async () => {
     try {
@@ -18,14 +17,17 @@ const Navigationbar = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      navigate('/login');
     } catch (error) {
       console.error("Logout failed", error);
     }
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    
+    window.location.href = '/login';
   };
+
 
   useEffect(() => {
     axios.get(AppURL.IdeasList)
@@ -37,10 +39,30 @@ const Navigationbar = () => {
       });
   }, []);
 
-  const handleComment = (e) => {
+  const handleComment = (id, e) => {
     e.stopPropagation();
-    navigate('/comments');
+    setActiveCommentId(prev => (prev === id ? null : id)); 
+  }
+
+   const handleLike = (id, e) => {
+    e.stopPropagation();
+
+    axios.post(AppURL.PostVote, { idea_id: id }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(() => {
+      // Refetch updated like count
+      axios.get(AppURL.IdeasList)
+        .then((response) => setIdeas(response.data))
+        .catch((err) => console.error("Failed to refetch ideas", err));
+    })
+    .catch((err) => {
+      console.error("Vote failed", err);
+    });
   };
+
 
   const renderCards = () => {
     return ideas.map((idea) => (
@@ -51,20 +73,28 @@ const Navigationbar = () => {
               <h2>{idea.title}</h2>
               <p className="text-muted">{idea.description}</p>
               <div className='d-flex justify-content-start align-items-center'>
-                <div className='gap-1 d-flex justify-content-start align-items-center'>
-                  <HandThumbsUp />
-                  <span className='px-2 text-secondary'>Like (20)</span>
-                </div>
                 <div
-                  className='gap-1 d-flex px-3 justify-content-start align-items-center'
-                  onClick={handleComment}
+                  className='gap-1 d-flex justify-content-start align-items-center'
+                  onClick={(e) => handleLike(idea.id, e)}
                   style={{ cursor: 'pointer' }}
                 >
+                  <HandThumbsUp />
+                  <span className='px-2 text-secondary'>Like ({idea.likes_count || 0})</span>
+                </div>
+                <div
+                    className='gap-1 d-flex px-3 justify-content-start align-items-center'
+                    onClick={(e) => handleComment(idea.id, e)}
+                    style={{ cursor: 'pointer' }}
+                  >
                   <ChatDots />
-                  <span className='px-2 text-secondary'>Comment (5)</span>
+                  <span className='px-2 text-secondary'>Comment ({idea.comments_count || 0})</span>
+
                 </div>
               </div>
             </Card.Title>
+              {activeCommentId === idea.id && (
+                <Comments ideaId={idea.id} />
+              )}
           </Card.Body>
         </Card>
       </div>

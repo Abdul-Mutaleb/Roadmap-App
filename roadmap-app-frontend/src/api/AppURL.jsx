@@ -10,6 +10,9 @@ class AppURL {
     static Logout = this.BaseURL + "/logout";
     static TotalUsers = this.BaseURL + "/admin/total-users";
     static TotalIdeas = this.BaseURL + "/admin/total-ideas";
+    static PostComment = this.BaseURL + "/comments";
+    static GetComments = this.BaseURL + "/comments";
+    static PostVote = this.BaseURL + "/vote";
     
 }
 export default AppURL;

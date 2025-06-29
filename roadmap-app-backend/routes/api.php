@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AddIdeasController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\DB;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -18,10 +20,19 @@ Route::delete('/admin/delete-idea/{id}', [AddIdeasController::class, 'deleteIdea
 // Route to update an idea
 Route::put('/admin/update-idea/{id}', [AddIdeasController::class, 'updateIdea']);
 
-Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
-    $request->user()->currentAccessToken()->delete();
-    return response()->json(['message' => 'Logged out']);
-});
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+ //totoal user 
 Route::get('/admin/total-users', [AddIdeasController::class, 'totalUsers']);
+ //totoal ideas
 Route::get('/admin/total-ideas', [AddIdeasController::class, 'totalIdeas']);
+//comment in ideas listetd
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/comments', [CommentController::class, 'AddComments']);
+    Route::put('/comments/{id}', [CommentController::class, 'update']);
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+});
+Route::get('/comments/{id}', [CommentController::class, 'getByIdea']);
+//voting user
+Route::post('/vote', [VoteController::class, 'addVote'])->middleware('auth:sanctum');
+

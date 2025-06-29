@@ -29,9 +29,6 @@ const Sidebar = () => {
         <Nav.Link as={Link} to="/admin/manage-ideas" className="text-white d-flex align-items-center gap-2">
           <FaEdit /> {!collapsed && 'Manage Ideas'}
         </Nav.Link>
-        <Nav.Link as={Link} to="/admin/manage-feedback" className="text-white d-flex align-items-center gap-2">
-          <FaComments /> {!collapsed && 'Manage Feedback'}
-        </Nav.Link>
       </Nav>
     </div>
   );

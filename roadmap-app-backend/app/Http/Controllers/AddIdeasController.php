@@ -44,10 +44,47 @@ class AddIdeasController extends Controller
         }
     }
 
-    public function IdeasList()
+    // public function IdeasList()
+    // {
+    //     $ideas = DB::table('add_ideas')
+    //         ->leftJoin('comments', 'add_ideas.id', '=', 'comments.idea_id')
+    //         ->leftJoin('votes', 'add_ideas.id', '=', 'votes.idea_id')
+    //         ->select('add_ideas.*', DB::raw('COUNT(comments.id) as comments_count'),
+    //          DB::raw('COUNT(DISTINCT votes.id) as likes_count'))
+    //         ->groupBy('add_ideas.id', 'add_ideas.title', 'add_ideas.description', 'add_ideas.added_by', 'add_ideas.created_at', 'add_ideas.updated_at')
+    //         ->get();
+
+    //     return response()->json($ideas);
+    // }
+
+  public function IdeasList()
     {
-        return response()->json(DB::table('add_ideas')->get());
+        $ideas = DB::table('add_ideas')
+            ->leftJoin('comments', 'add_ideas.id', '=', 'comments.idea_id')
+            ->leftJoin('votes', 'add_ideas.id', '=', 'votes.idea_id')
+            ->select(
+                'add_ideas.id',
+                'add_ideas.title',
+                'add_ideas.description',
+                'add_ideas.added_by',
+                'add_ideas.created_at',
+                'add_ideas.updated_at',
+                DB::raw('COUNT(DISTINCT comments.id) as comments_count'),
+                DB::raw('COUNT(DISTINCT votes.id) as likes_count')
+            )
+            ->groupBy(
+                'add_ideas.id',
+                'add_ideas.title',
+                'add_ideas.description',
+                'add_ideas.added_by',
+                'add_ideas.created_at',
+                'add_ideas.updated_at'
+            )
+            ->get();
+
+        return response()->json($ideas);
     }
+
 
     public function deleteIdea($id) {
     $idea = AddIdeas::find($id);

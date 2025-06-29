@@ -47,14 +47,6 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </div>
-        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
-          <Card className="w-100 h-100 bg-warning">
-            <Card.Body>
-              <Card.Title>Total Comments</Card.Title>
-              <Card.Text>20</Card.Text>
-            </Card.Body>
-          </Card>
-        </div>
       </div>
     </div>
   );

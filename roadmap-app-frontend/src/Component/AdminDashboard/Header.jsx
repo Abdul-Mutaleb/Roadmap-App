@@ -1,27 +1,23 @@
 import { Navbar, Nav, Dropdown } from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
 import AppURL from '../../api/AppURL';
 import axios from 'axios';
 const Header = () => {
-   const navigate = useNavigate();
    const handleLogout = async () => {
-        try {
-          await axios.post(AppURL.Logout, {}, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          });
+      try {
+        await axios.post(AppURL.Logout, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+      } catch (error) {
+        console.error("Logout failed", error);
+      }
 
-          // Remove token and user from storage
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    };
 
-          // Redirect to login
-          navigate('/login');
-        } catch (error) {
-          console.error("Logout failed", error);
-        }
-      };
 
 
   return (

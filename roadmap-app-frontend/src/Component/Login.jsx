@@ -28,8 +28,10 @@ class Login extends React.Component {
     axios.post(AppURL.Login, data)
       .then((response) => {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user)); 
-        this.props.setUser(response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        this.props.setUser(response.data.user);     // update user state in App.jsx
+        this.props.setToken(response.data.token);   // update token state in App.jsx
 
         if (response.data.user.role === 'admin') {
           this.setState({ loggedIn: true, redirectTo: "/admin" });
@@ -42,6 +44,7 @@ class Login extends React.Component {
           message: error.response?.data?.message || "Login failed"
         });
       });
+
   }
 
   render() {
